@@ -64,7 +64,7 @@ pill-splitter-challenge/
    pnpm install
    # or
    yarn install
-   ```
+
 
 3. **Run the dev server**
 
@@ -102,7 +102,7 @@ pill-splitter-challenge/
 
 ---
 
-##  Future Improvements
+##Future Improvements
 
 *  Undo / Redo functionality
 *  Save pills state in localStorage
@@ -111,7 +111,7 @@ pill-splitter-challenge/
 
 ---
 
-##  Author
+##Author
 
 * **Fariha Afrin Tamanna**
 

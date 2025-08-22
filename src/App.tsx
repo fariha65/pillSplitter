@@ -1,39 +1,61 @@
 import React, { useState, useRef } from 'react';
 
+interface Pill {
+  id: number;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  color: string;
+}
+
+interface DragInfo {
+  id: number;
+  offsetX: number;
+  offsetY: number;
+}
+
 let id = 0; // Unique ID for each pill
 
-const App = () => {
-  const [pills, setPills] = useState([]); // pill gula er list
-  const [cursor, setCursor] = useState({ x: 0, y: 0 }); // mouse er current position
-  const containerRef = useRef(null); // container element er reference
-  const dragRef = useRef(null); // drag er jonno temporary reference
+const App: React.FC = () => {
+  const [pills, setPills] = useState<Pill[]>([]);
+  const [cursor, setCursor] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const dragRef = useRef<DragInfo | null>(null);
+  const isDraggingRef = useRef(false);
 
   // Random color generate korar function
   const randomColor = () => `hsl(${Math.random() * 360}, 70%, 70%)`;
 
   // Mouse move korle cursor position update hoi + dragging hole pill move hoy
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!containerRef.current) return;
     const box = containerRef.current.getBoundingClientRect();
     const x = e.clientX - box.left;
     const y = e.clientY - box.top;
     setCursor({ x, y });
 
     if (dragRef.current) {
+      isDraggingRef.current = true;
       const dx = x - dragRef.current.offsetX;
       const dy = y - dragRef.current.offsetY;
       setPills(prevPills => prevPills.map(p =>
-        p.id === dragRef.current.id ? { ...p, x: dx, y: dy } : p
+        p.id === dragRef.current!.id ? { ...p, x: dx, y: dy } : p
       ));
     }
   };
 
   // Mouse click kore drag er start position niye pill create korar process
-  const handleMouseDown = (e) => {
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (!containerRef.current) return;
+    isDraggingRef.current = false;
     const box = containerRef.current.getBoundingClientRect();
     const startX = e.clientX - box.left;
     const startY = e.clientY - box.top;
 
-    const handleMouseUp = (ev) => {
+    const handleMouseUp = (ev: MouseEvent) => {
+      if (!containerRef.current) return;
+      const box = containerRef.current.getBoundingClientRect();
       const endX = ev.clientX - box.left;
       const endY = ev.clientY - box.top;
       const x = Math.min(startX, endX);
@@ -49,8 +71,10 @@ const App = () => {
   };
 
   // Drag start korle kon pill k dhora hoise ta track kore
-  const startDrag = (e, pill) => {
+  const startDrag = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, pill: Pill) => {
     e.stopPropagation(); // Parent event stop
+    if (!containerRef.current) return;
+    isDraggingRef.current = false;
     const box = containerRef.current.getBoundingClientRect();
     dragRef.current = {
       id: pill.id,
@@ -66,7 +90,7 @@ const App = () => {
 
   // Mouse click korar location er upor base kore pill 2 vag kore
   const splitPills = () => {
-    const newPills = [];
+    const newPills: Pill[] = [];
 
     pills.forEach(p => {
       const cx = cursor.x;
@@ -107,6 +131,14 @@ const App = () => {
     setPills(newPills);
   };
 
+  // Only split pills if not dragging
+  const handleClick = () => {
+    if (!isDraggingRef.current) {
+      splitPills();
+    }
+    isDraggingRef.current = false;
+  };
+
   return (
     <div
       ref={containerRef}
@@ -114,7 +146,7 @@ const App = () => {
       onMouseMove={handleMouseMove}
       onMouseDown={handleMouseDown}
       onMouseUp={stopDrag}
-      onClick={splitPills} // click korle split hobe
+      onClick={handleClick}
     >
       {/* cursor er guide line (vertical and horizontal) */}
       <div className="absolute bg-black opacity-30" style={{ left: cursor.x, top: 0, width: 1, height: '100%' }} />
@@ -138,5 +170,4 @@ const App = () => {
     </div>
   );
 };
-
 export default App;

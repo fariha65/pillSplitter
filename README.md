@@ -113,5 +113,5 @@ pill-splitter-challenge/
 
 ##Author
 
-* **Fariha Afrin Tamanna**
+**Fariha Afrin Tamanna**
 

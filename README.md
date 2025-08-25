@@ -50,13 +50,13 @@ pill-splitter-challenge/
 
 ##  How to Run Locally
 
-1. **Clone the repository**
+1. Clone the repository
    ```bash
    git clone <your-repo-url>
    cd pill-splitter-challenge
 ````
 
-2. **Install dependencies**
+2. Install dependencies
 
    ```bash
    npm install
@@ -66,13 +66,13 @@ pill-splitter-challenge/
    yarn install
 
 
-3. **Run the dev server**
+3. Run the dev server
 
    ```bash
    npm run dev
    ```
 
-4. **Open in Browser**
+4. Open in Browser
 
    ```
    http://localhost:5173
@@ -82,17 +82,17 @@ pill-splitter-challenge/
 
 ##  How to Use
 
-1. **Draw a pill:**
+1. Draw a pill:
 
    * Click + drag anywhere inside the container.
    * A pill (rounded rectangle) will appear.
 
-2. **Move a pill:**
+2. Move a pill:
 
    * Click + drag an existing pill.
    * Release mouse to drop.
 
-3. **Split a pill:**
+3. Split a pill:
 
    * Move cursor inside a pill (crosshair shows position).
    * Click → pill splits horizontally or vertically.
@@ -102,7 +102,7 @@ pill-splitter-challenge/
 
 ---
 
-##Future Improvements
+## Future Improvements
 
 *  Undo / Redo functionality
 *  Save pills state in localStorage
@@ -111,7 +111,7 @@ pill-splitter-challenge/
 
 ---
 
-##Author
+## Author
 
-**Fariha Afrin Tamanna**
+Fariha Afrin Tamanna
 
